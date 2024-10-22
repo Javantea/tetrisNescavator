@@ -1,4 +1,3 @@
-import sys
 from copy import copy
 orientationID = [2, 7, 8, 10, 11, 14, 18, 0]
 pieces = ['t', 'j', 'z', 'o', 's', 'l', 'i']

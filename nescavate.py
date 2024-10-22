@@ -1,15 +1,6 @@
 from states import State, StateChain
 from tqdm import tqdm
 
-def getNumber(message):
-    while True:
-        try:
-            n = input(message)
-            n = int(n)
-            break
-        except ValueError:
-            print("Invalid input")
-
 def pieceToNum(piece):
     return 'tjzosli'.index(piece)
 
@@ -52,6 +43,7 @@ if __name__ == "__main__":
     pieceNum = 3
     while len(chainList) > 1:
         print(f'{len(chainList)} possible third piece seeds.')
+        print(chainList[0].frames)
         if len(chainList) < 10:
             for chain in chainList:
                 print(f'{chain.thirdState}, {chain.tailState}')
@@ -70,7 +62,7 @@ if __name__ == "__main__":
                 pbar.update(1)
         chainList = newChainList
         answer = input('Finish search now (0-1)? ')
-        if answer == 1:
+        if answer == '1':
             break
         pieceNum += 1
     '''

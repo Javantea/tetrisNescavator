@@ -47,7 +47,7 @@ def main():
     parser.add_argument("-l", "--level", type=int)
     args = parser.parse_args()
 
-    N = 32767
+    period = 32767
     seed = 0x8898
     chainList = []
     #level = int(input('Enter starting level (0-19): '))
@@ -76,13 +76,13 @@ def main():
     #    clearList.append(args.clears.pop(0))
 
     print("Initializing possible seeds...")
-    with tqdm(total=N*8*4,leave=True) as pbar:
-        for i in range(N):
+    with tqdm(total=period*8*4,leave=True) as pbar:
+        for i in range(period):
             for j in range(8):
-                    for k in range(4):
-                        newChain = StateChain(State(seed, j, k, pieceList[1]))
-                        newChain.addFrames(rowList[1], clearList[1], gravity)
-                        chainList.append(newChain)
+                for k in range(4):
+                    newChain = StateChain(State(seed, j, k, pieceList[1]))
+                    newChain.addFrames(rowList[1], clearList[1], gravity)
+                    chainList.append(newChain)
 
             pbar.update(8*4)
             seed = State.prng(seed, 1)

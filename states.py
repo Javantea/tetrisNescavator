@@ -54,9 +54,6 @@ class StateChain:
         self.tailState = copy(startState)
         self.frames = [-1] # Includes first entry as filler
 
-    def __eq__(self):
-        pass
-
     @staticmethod
     def rowToFrames(row, gravity):
         return gravity * row + (2 * ((22 - row) // 4) + 10)
@@ -79,12 +76,6 @@ class StateChain:
         self.tailState.setPieceBefore(piece)
         self.tailState.incPc()
         self.tailState = self.tailState.advance(self.frames[-1], reroll)
-
-
-    def validate(self):
-        if len(self.pieces) < 3:
-            return True
-        return True
 
 if __name__ == "__main__":
     testState = State(242*256+77, 0, 0, 7)

@@ -1,6 +1,37 @@
+#!/usr/bin/env pypy3
+"""
+Nescavate 2
+by Javantea
+Oct 22-24, 2024
+
+Based on Nescavate
+by fractal161
+
+This program is meant to be run with pypy3 but will run in python3.
+
+If you correctly record the level, the pieces (not including the first piece), the row they end up, and whether a clear occurred, you can get the seed. How? By guessing the number of frames that elapse and filtering seeds that produce the sequence. You can see this in action by watching this video that explains what is going on.
+
+"""
 import argparse
 from states import State, StateChain
-from tqdm import tqdm
+try:
+    from tqdm import tqdm
+except ImportError:
+    from contextlib import contextmanager
+
+    @contextmanager
+    def tqdm(*args, **kwargs):
+        try:
+            yield tqdm_nonsense()
+        finally:
+            pass
+
+    #print("tqdm will give you nice progress bars")
+    class tqdm_nonsense:
+        def __init__(self, *args, **kwargs):
+            pass
+        def update(self, val):
+            pass
 
 gravityTable = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1]
 
@@ -22,15 +53,22 @@ def main():
     #level = int(input('Enter starting level (0-19): '))
     level = 6
     if args.level: level = args.level
+    print("Level", level)
     gravity = gravityTable[level]
     pieceList = args.pieces or [] #[]
     rowList = args.rows or [] #[]
     clearList = args.clears or [] #[]
     if len(pieceList) < 2:
-        print("Usage: nescafe1.py -p L J T Z -r 1 2 3 4 -c 0 0 0 0")
+        print("Usage: nescavate2.py -l 8 -p Z T Z S T J S J T J -r 17 15 13 11 9 7 5 3 1 0 -c 0 0 0 0 0 0 0 0 0 0 0 0")
         return
 
     pieceList = list(map(pieceToNum, pieceList))
+    if len(rowList) < len(pieceList):
+        print("Warning: not enough rows")
+        rowList += [0]*(len(pieceList) - len(rowList))
+    if len(clearList) < len(pieceList):
+        print("Warning: not enough clears")
+        clearList += [0]*(len(pieceList) - len(clearList))
 
     #for i in range(len(args.pieces)):
     #    pieceList.append(args.pieces.pop(0))
